@@ -19,7 +19,8 @@
     "files.associations": {
         "sensor_imu.h": "c",
         "esp_system.h": "c",
-        "freertos.h": "c"
+        "freertos.h": "c",
+        "ledc.h": "c"
     },
     "idf.gitPathWin": "C:\\Users\\luiz.h.a.oliveira\\.espressif\\tools\\idf-git\\2.39.2\\cmd\\git.exe"
 }
