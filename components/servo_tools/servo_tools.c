@@ -12,7 +12,7 @@ static uint32_t calculate_duty(float angle) {
     return duty;
 }
 
-static float calculate_angle(ledc_mode_t speed_mode, uint32_t duty) {
+static float calculate_angle(uint32_t duty) {
     float angle_us = (float)duty * 1000000.0f / (float)global_full_duty / (float)global_servo_config.freq;
     angle_us -= global_servo_config.min_width_us;
     angle_us = angle_us < 0.0f ? 0.0f : angle_us;
@@ -54,7 +54,7 @@ esp_err_t servo_init(ServoConfig *config) {
 
 esp_err_t servo_set_angle(ServoConfig *config, ServoAngle angle) {
     esp_err_t ret;
-    uint32_t duty = calculate_duty(config->speed_mode, angle.angle);
+    uint32_t duty = calculate_duty(angle.angle);
     ret = ledc_set_duty(config->speed_mode, (ledc_channel_t)config->channel_number, duty);
     ret |= ledc_update_duty(config->speed_mode, (ledc_channel_t)config->channel_number);
 
