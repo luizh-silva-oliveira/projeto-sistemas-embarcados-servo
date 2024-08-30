@@ -15,6 +15,16 @@ ServoConfig servo_config = {
     .speed_mode = LEDC_HIGH_SPEED_MODE
 };
 
+ServoConfig servo_config_2 = {
+    .max_angle = 180,
+    .freq = 200,
+    .min_width_us = 500,
+    .max_width_us = 2500,
+    .timer_number = LEDC_TIMER_1,
+    .channel_number = LEDC_CHANNEL_1,
+    .speed_mode = LEDC_HIGH_SPEED_MODE
+};
+
 ServoAngle servo_angle = {
     .angle = 0
 };
@@ -43,8 +53,4 @@ esp_err_t hw_servo_init(uint8_t gpio_num) {
     if (ret != ESP_OK) return ESP_ERR_NOT_FOUND;
 
     return ESP_OK;
-}
-
-esp_err_t hw_servo_set_pulse_width(uint8_t gpio_num, uint32_t pulse_width_us) {
-    
 }

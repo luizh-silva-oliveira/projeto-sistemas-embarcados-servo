@@ -6,7 +6,7 @@
 static ServoConfig global_servo_config;
 static uint32_t global_full_duty;
 
-static uint32_t calculate_duty(ledc_mode_t speed_mode, float angle) {
+static uint32_t calculate_duty(float angle) {
     float angle_us = angle / global_servo_config.max_angle * (global_servo_config.max_width_us - global_servo_config.min_width_us) + global_servo_config.min_width_us;
     uint32_t duty = (uint32_t)((float)global_full_duty * (angle_us) * global_servo_config.freq / (1000000.0f));
     return duty;
@@ -37,7 +37,7 @@ esp_err_t servo_init(ServoConfig *config) {
     ledc_channel_config_t ledc_ch = {
         .intr_type  = LEDC_INTR_DISABLE,
         .channel    = config->channel_number,
-        .duty       = calculate_duty(config->speed_mode, 0),
+        .duty       = calculate_duty(0),
         .gpio_num   = config->servo_pin,
         .speed_mode = config->speed_mode,
         .timer_sel  = config->timer_number,
@@ -64,7 +64,7 @@ esp_err_t servo_set_angle(ServoConfig *config, ServoAngle angle) {
 
 esp_err_t servo_get_angle(const ServoConfig *config, ServoAngle *angle) {
     uint32_t duty = ledc_get_duty(config->speed_mode, config->channel_number);
-    float a = calculate_angle(config->speed_mode, duty);
+    float a = calculate_angle(duty);
     angle->angle = a;
     return ESP_OK;
 }
