@@ -55,6 +55,7 @@ esp_err_t servo_set_angle(ServoConfig *config, ServoAngle angle) {
     esp_err_t ret;
     calculate_duty(angle.angle);
     uint32_t duty = config->duty;
+    if (stop_pwm) return ESP_OK; //Caso eu tenha desligado o PWM não é mais para atualizar o duty cycle
     ret = ledc_set_duty(config->speed_mode, (ledc_channel_t)config->channel_number, duty);
     ret |= ledc_update_duty(config->speed_mode, (ledc_channel_t)config->channel_number);
 

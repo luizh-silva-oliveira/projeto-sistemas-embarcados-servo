@@ -21,6 +21,7 @@ typedef struct {
 } ServoAngle;
 
 extern ServoConfig global_servo_config;
+extern bool stop_pwm;
 
 esp_err_t hw_servo_init(uint8_t gpio_num);
 esp_err_t hw_servo_set_pulse_width(uint8_t gpio_num, uint32_t pulse_width_us);

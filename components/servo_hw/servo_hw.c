@@ -2,8 +2,10 @@
 #include "driver/ledc.h"
 
 ServoConfig global_servo_config;
+bool stop_pwm;
 
 esp_err_t hw_servo_init(uint8_t gpio_num) {
+    stop_pwm = false;
 
     esp_err_t ret;
 
@@ -42,8 +44,10 @@ esp_err_t hw_servo_set_pulse_width(uint8_t gpio_num, uint32_t pulse_width_us) {
 }
 
 esp_err_t hw_servo_deinit(uint8_t gpio_num) {
+    stop_pwm = true;
     esp_err_t ret;
-    ret = ledc_stop(global_servo_config.speed_mode, (ledc_channel_t) global_servo_config.channel_number, 1);
+    ret = ledc_set_duty(global_servo_config.speed_mode, (ledc_channel_t) global_servo_config.channel_number, 0);
+    ret |= ledc_update_duty(global_servo_config.speed_mode, (ledc_channel_t) global_servo_config.channel_number);
     //ret |= ledc_timer_rst(global_servo_config.speed_mode, global_servo_config.timer_number);
     printf("%d\n", ret);
     if (ret != ESP_OK) return ESP_FAIL;
