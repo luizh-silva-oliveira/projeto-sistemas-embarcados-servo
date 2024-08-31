@@ -14,14 +14,15 @@ typedef struct {
     uint8_t channel_number;    //Canal do ledc
     ledc_mode_t speed_mode;    //Velocidade do canal ledc
     uint32_t duty;             //duty cycle
+    uint8_t servo_pin;          //Pino do servo
 } ServoConfig;
 
 typedef struct {
     float angle;
 } ServoAngle;
 
-extern ServoConfig global_servo_config;
-extern bool stop_pwm;
+extern ServoConfig *global_servo_config[2];
+extern bool stop_pwm[2];
 
 esp_err_t hw_servo_init(uint8_t gpio_num);
 esp_err_t hw_servo_set_pulse_width(uint8_t gpio_num, uint32_t pulse_width_us);
