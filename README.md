@@ -30,7 +30,7 @@ get_quaternion(Quaternion *quaternion): Vai pegar o Quaternion calculado na fun�
 ![diagrama de blocos](images/block_diagram.png)  
 
 # Esquemático
-![esquemático](images/esquematicoMPU6050.png)
+![esquemático](images/esquematico.png)
 
 # Árvore de arquivos
 ![Arquitetura](images/tree.jpeg)
