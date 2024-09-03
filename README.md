@@ -38,9 +38,6 @@ A biblioteca **servo_tools** é complementar a biblioteca SERVO_HW com funções
 # Esquemático
 ![esquemático](images/esquematico.png)
 
-# Árvore de arquivos
-![Arquitetura](images/tree.jpeg)
-
 # Diagrama de arquitetura
 ![Arquitetura](images/Diagrama.jpeg)
 
