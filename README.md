@@ -1,28 +1,34 @@
 | Placas suportadas | ESP32 | ESP32-C2 | ESP32-C3 | ESP32-C6 | ESP32-H2 | ESP32-S2 | ESP32-S3 |
 | ----------------- | ----- | -------- | -------- | -------- | -------- | -------- | -------- |
 # Descrição do projeto
-Neste repositório foram desenvolvidas duas bibliotecas para utilizar do módulo MPU6050 utilizando das medições do giroscópio e do acelerômetro.
+Neste repositório foram desenvolvidas duas bibliotecas para controle de servo motores.
 
-Na biblioteca **sensor_imu** temos a definição dos structs que capturam os dados do giroscópio e do acelerômetro além das seguintes funções:
+A biblioteca **servo_hw** Fornece uma interface de baixo nível para configurar e controlar servos usando ESP32 PWM.
 
-```
-imu_init(): Configura a comunicação I2C e o MPU6050 deixando ele pronto para captura dos dados.
-
-get_acceleration_data(AccelerationData *data): Retorna os dados do acelerômetro nos eixos x, y e z.
-
-get_gyroscope_data(GyroscopeData *data): Retorna os dados do giroscópio nos eixos x, y e z.
-```
-
-Na biblioteca **imu_tools** temos as definições dos structs que guardam os dados do sensor, dos quaternions e ângulos de euler e também as seguintes funções:  
+Configuração:  
 
 ```
-get_imu_data(IMUData *data): Captura os dados do acelerômetro e do giroscópio e guarda no struc IMUData passado como parâmetro.
+■ ServoConfig: Define parâmetros como ângulo máximo, largura de pulso mínima e máxima, frequência PWM, canal LEDC, ciclo de trabalho e pino do servo.
 
-calculate_quaternion(const IMUData *data, Quaternion *quaternion): A partir dos dados guardados na estrutura IMUData vai calcular os quatro quaternions.
+■ ServoAngle: Armazena o ângulo atual do servo.
+```
 
-quaternion_to_euler(const Quaternion *quaternion, EulerAngle *euler): A partir dos dados guardados na estrutura Quaternion vai calcular os três angulos de euler yaw, pitch e roll.
+Funções:
+```
+■ hw_servo_init(uint8_t gpio_num): Inicializa o servo configurando o PWM no pino especificado.
 
-get_quaternion(Quaternion *quaternion): Vai pegar o Quaternion calculado na função calculate_quaternion e gravar no quaternion passado como parâmetro.
+■ hw_servo_set_pulse_width(uint8_t gpio_num, uint32_t pulse_width_us): Define a largura do pulso PWM para controlar a posição do servo.
+
+■ hw_servo_deinit(uint8_t gpio_num): Desativa o servo e desabilita o PWM no pino especificado.
+``` 
+A biblioteca **servo_tools** é complementar a biblioteca SERVO_HW com funções adicionais para inicialização e controle de ângulo do servo.
+
+```
+■ servo_init(ServoConfig *config): Inicializa o servo usando as configurações especificadas na estrutura ServoConfig.
+
+■ servo_set_angle(ServoConfig *config, ServoAngle angle): Define o ângulo do servo com base na estrutura ServoAngle.
+
+■ servo_get_angle(const ServoConfig *config, ServoAngle *angle): Obtém o ângulo atual do servo e o armazena na estrutura ServoAngle.
 ```
 
 
