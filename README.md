@@ -44,8 +44,6 @@ A biblioteca **servo_tools** é complementar a biblioteca SERVO_HW com funções
 # Video Explicativo
 ***[Video Explicativo - Entrega 02 - Sistemas Embarcados [Youtube]](https://www.youtube.com/watch?v=dHcb04kcQVU)***
 
-**OBS: Caso sua placa ESP32 utilize outros pinos diferentes do 21 e 22 para o SDA e SCL é importante modificar na função i2c_bus_init dentro da biblioteca sensor_imu.c**
-
 # Máquina de estados
 ![Maquina de Estados](images/state_machine.png)
 
