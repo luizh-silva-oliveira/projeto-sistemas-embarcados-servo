@@ -27,10 +27,25 @@ static float calculate_angle(uint32_t duty) {
     return angle;
 }
 
+static uint32_t search_servo_index(uint32_t gpio) {
+    for (int i = 0; i < 8; i++) {
+        if (global_servo_config[i]->servo_pin == gpio) {
+            return i;
+            break;
+        }
+    }
+    return 9; //Erro caso o gpio nao tenha servo atrelado
+}
+
 esp_err_t servo_init(ServoConfig *config) {
     esp_err_t ret;
-    servo_index = (global_servo_config[0] == NULL) ? 0 : 1;
-
+    for (int i = 0; i < 8; i++) {
+        if (global_servo_config[i] == NULL) {
+            servo_index = i;
+            break;
+        }
+    }
+    
     global_servo_config[servo_index] = config;
     calculate_duty(0); //Inicia o servo em 0 graus
     hw_servo_init(config->servo_pin); //Iniciando PWM na GPIO
@@ -55,7 +70,8 @@ esp_err_t servo_init(ServoConfig *config) {
 }
 
 esp_err_t servo_set_angle(ServoConfig *config, ServoAngle angle) {
-    servo_index = (config->servo_pin == 19) ? 0 : 1;
+    servo_index = search_servo_index(config->servo_pin);
+    if (servo_index == 9) return ESP_FAIL;
     esp_err_t ret;
     calculate_duty(angle.angle);
     uint32_t duty = config->duty;
